@@ -5,7 +5,7 @@ const puerto = 3050; // Puedes cambiar el puerto según tus necesidades
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); 
 app.use(express.static('../front-end')); // Sirve archivos estáticos desde front-end
 
 // Rutas para obtener datos de la API del museo
