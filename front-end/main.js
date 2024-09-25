@@ -118,21 +118,59 @@ function renderizarTarjetas(obraDeArte) {
   //renderizar tarjetas
 
   const tarjetaContainer = document.createElement("div");
-  tarjetaContainer.setAttribute("class", "constenedor-tarjeta");
+  tarjetaContainer.setAttribute("class", "card");
+
+  const imagen1 = document.createElement("div");
+  imagen1.setAttribute("class", "image");
+
+  const contenedor = document.createElement("div");
+  contenedor.setAttribute("class", "content");
 
   const imagen = document.createElement("img");
   imagen.setAttribute("class", "imagen");
   imagen.setAttribute("src", obraDeArte.primaryImage);
+  imagen.title = obraDeArte.objectDate || "Fecha no disponible";
+  
 
-  const titulo = document.createElement("h5");
+  const titulo = document.createElement("span");
+  titulo.setAttribute("class", "titulo")
   titulo.textContent = obraDeArte.title;
+
+
+
+  // const imagen = document.createElement("img");
+  // imagen.setAttribute("class", "imagen");
+  // imagen.setAttribute("src", obraDeArte.primaryImage);
+  // imagen.title = obraDeArte.objectDate || "Fecha no disponible";
+
+  const cultura = document.createElement("p");
+  cultura.setAttribute("class", "desc")
+  cultura.textContent = obraDeArte.culture || "Cultura no disponible";
+  
+  const dinastia = document.createElement("p");
+  dinastia.setAttribute("class", "desc")
+  dinastia.textContent = obraDeArte.dynasty || "Dinastia no disponible";
+
   //traducir datos antes de mostrarlos(ejemplo de funcion de traduccion)
   // traducirAlEspañol(obraDeArte.title,(tituloTraducido)=>{
   //     titulo.textContent = tituloTraducido;
   //});
 
-  tarjetaContainer.appendChild(imagen);
+
   tarjetaContainer.appendChild(titulo);
+  tarjetaContainer.appendChild(imagen);
+  tarjetaContainer.appendChild(cultura);
+  tarjetaContainer.appendChild(dinastia);
+
+  //detectar si hay imagenes adicionales 
+  if(obraDeArte.additionalImages && obraDeArte.additionalImages.length > 0){
+    const verMasImgenes = document.createElement("button");
+    verMasImgenes.textContent = "Ver más imágenes";
+    verMasImgenes.addEventListener("click", () => {
+      window.location.href = `ver-mas.html?id=${obraDeArte.objectID}`;
+    });
+    tarjetaContainer.appendChild(verMasImgenes);
+  }
 
   galeria.appendChild(tarjetaContainer);
 }
@@ -163,9 +201,4 @@ botonSiguentes.addEventListener("click", () => {
   }
 });
 
-// exports = {
-//   llenarSelect,
-//   recuperarIdsObrasDeArte,
-//   renderizarTarjetas,
-//   actualizarBotonesdePaginacion,
-// };
+
