@@ -1,9 +1,59 @@
-h1 {
-  color: red;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+body {
+  font-family:Open Sans;
+  background-image: url('imagenes/Louvre.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed ;
+  margin: 0;
+  padding: 0;
 }
-/* .imagen{
-    width: 200px;
-} */
+
+h1 {
+  
+  text-align: center;
+  margin-top: 120px;
+}
+
+#formulario {
+  display: flex;
+  justify-content:center;
+  margin-top: 50px;
+}
+label{
+  font-size: 30px;
+  color: rgb(1, 0, 0);
+}
+#formulario input,
+#formulario select {
+  margin-right: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#formulario button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#formulario button:hover {
+  background-color: #555;
+}
+
+#galeria {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
 .imagen-adicional {
   max-width: 100%;
@@ -11,60 +61,64 @@ h1 {
 }
 
 .card {
-  max-width: 300px;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  border: 1px solid transparent;
+  background-color: rgb(208, 169, 107);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
 }
 
-.card a {
-  text-decoration: none;
+.card:hover {
+  transform: scale(1.05);
 }
 
-.content {
-  padding: 1.1rem;
-}
-
-.image {
-  object-fit: cover;
+.imagen {
   width: 100%;
-  height: 150px;
-  background-color: rgb(239, 205, 255);
+  height: 250px;
+  object-fit: cover;
 }
 
-.title {
-  color: #111827;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 600;
+.card .content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .desc {
-  margin-top: 0.5rem;
-  color: #6b7280;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #666;
 }
 
-.action {
-  display: inline-flex;
-  margin-top: 1rem;
-  color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-  align-items: center;
-  gap: 0.25rem;
-  background-color: #2563eb;
-  padding: 4px 8px;
-  border-radius: 4px;
+#paginacion {
+  display: flex;
+  justify-content: center; /* Centra la paginación */
+  margin-top: 100px; /* Ajusta este valor para mover la paginación más abajo */
 }
 
-.action span {
-  transition: 0.3s ease;
+#paginacion input[type="NumPagina"] {
+  width: 50px;
+  text-align: center;
 }
 
-.action:hover span {
-  transform: translateX(4px);
+#paginacion #botonAnterior,
+#paginacion #botonSiguiente {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+#paginacion #botonAnterior:hover,
+#paginacion #botonSiguiente:hover {
+  background-color: #555;
 }

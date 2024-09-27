@@ -11,8 +11,8 @@ const urlBase = "http://localhost:3050/api/";
 let paginaActual = 1;
 let paginasTotales = 0;
 let objetoDeBusqueda = {};
-const botonAnterior = document.getElementById('botonAnterior')
-const botonSiguentes = document.getElementById('botonSiguiente');
+const botonAnterior = document.getElementById("botonAnterior");
+const botonSiguentes = document.getElementById("botonSiguiente");
 const inputNumPaginas = document.querySelector('input[type="NumPagina"]');
 
 llenarSelect();
@@ -43,15 +43,15 @@ function llenarSelect() {
 function manejarEnvioFormulario(evento) {
   evento.preventDefault();
   const busqueda = terminoAbuscar.value;
-  const ubicacionBuscar = ubicacion.value;
+  const ubicacionBuscar = ubicacion.value.charAt(0).toUpperCase() + ubicacion.value.slice(1).toLowerCase();
   const departamentoBuscar = departamentos.value; // AÑADIR DEPARTAMENTO
   //console.log(busqueda, ubicacionBuscar, departamentoBuscar);
 
-  const objetoDeBusqueda = {};
-  if (busqueda) objetoDeBusqueda.busqueda = busqueda;
-  if (ubicacionBuscar) objetoDeBusqueda.ubicacion = ubicacionBuscar;
+ objetoDeBusqueda = {};
+  if (busqueda) objetoDeBusqueda.busqueda= busqueda;
+  if (ubicacionBuscar) objetoDeBusqueda.ubicacionBuscar = ubicacionBuscar;
   if (departamentoBuscar && departamentoBuscar !== "0") {
-    objetoDeBusqueda.departamento = departamentoBuscar; // AÑADIR FILTRO DEPARTAMENTO
+    objetoDeBusqueda.departamentoBuscar = departamentoBuscar; // AÑADIR FILTRO DEPARTAMENTO
   }
   paginaActual = 1; //reiniciar a la primera pagina cada vez que hacemos una nueva busqueda
   recuperarIdsObrasDeArte(objetoDeBusqueda, paginaActual);
@@ -59,7 +59,7 @@ function manejarEnvioFormulario(evento) {
 formulario.addEventListener("submit", manejarEnvioFormulario);
 
 // RECUPERAR IDs CON FILTRO ACUMULATIVO
-function recuperarIdsObrasDeArte(objetoDeBusqueda) {
+function recuperarIdsObrasDeArte(objetoDeBusqueda, paginaActual) {
   //console.log('Desde la funcion', objetoDeBusqueda);
   const propiedadesBusqueda = [];
 
@@ -70,48 +70,46 @@ function recuperarIdsObrasDeArte(objetoDeBusqueda) {
     propiedadesBusqueda.push("geoLocation=" + objetoDeBusqueda.ubicacion);
   }
   if (objetoDeBusqueda.departamento) {
-    propiedadesBusqueda.push("departmentIds=" + objetoDeBusqueda.departamento); //agrega filtro de departamento
+    propiedadesBusqueda.push("departmentIds=" + objetoDeBusqueda.departamento); 
   }
-  propiedadesBusqueda.push("page=" + paginaActual);
 
-  const url = urlBase + "search?" + propiedadesBusqueda.join("&");
+  const url = `${urlBase}search?${propiedadesBusqueda.join("&")}`;
+  console.log("URL generada para la busqueda:", url);//Agrega esto
+
+ // const url = urlBase + "search?" + propiedadesBusqueda.join("&");
 
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-
       console.log(data);
 
-      if(data.objectIDs && Array.isArray(data.objectIDs) && data.objectIDs.length > 0){
-        paginasTotales = Math.ceil(data.total / 20); //calculo total de paginas
+      if (
+        data.objectIDs && Array.isArray(data.objectIDs) && data.objectIDs.length > 0) {
+        paginasTotales = Math.ceil(data.objectIDs.length / 20); //calculo total de paginas
         actualizarBotonesdePaginacion();
 
         galeria.innerHTML = "";
 
-        const ids = data.objectIDs.slice(0, 20); //limitar a 20 resultados
+        const inicio = (paginaActual - 1)*20;
+        const fin = inicio + 20;
+        const ids = data.objectIDs.slice(inicio,fin);
         console.log(ids);
 
         ids.forEach((id) => {
-        fetch(`${urlBase}objects/${id}`)
-          .then((res) => {
-          //    if(!res.ok){
-          //      throw new Error(`Error al obtener el objeto con ID ${id}:${res.status}`);
-          //  }
-          return res.json();
-        })
-          .then((obraDeArte) => {
-            console.log(obraDeArte);
-            renderizarTarjetas(obraDeArte);
-          })
-          
+          fetch(`${urlBase}objects/${id}`)
+            .then((res) => res.json())
+            .then((obraDeArte) => {
+              console.log(obraDeArte);
+              renderizarTarjetas(obraDeArte);// renderiza los objetos
+            });
         });
-          } else{
-            console.error("No se encontraron objetos para los filtros aplicados");
-     }    
-  })
-  .catch((error) => {
-    console.error("Error en la búsqueda de objetos:", error);
-  });
+      } else {
+        console.error("No se encontraron objetos para los filtros aplicados");
+      }
+    })
+    .catch((error) => {
+      console.error("Error en la búsqueda de objetos:", error);
+    });
 }
 
 function renderizarTarjetas(obraDeArte) {
@@ -128,42 +126,30 @@ function renderizarTarjetas(obraDeArte) {
 
   const imagen = document.createElement("img");
   imagen.setAttribute("class", "imagen");
-  imagen.setAttribute("src", obraDeArte.primaryImage);
-  imagen.title = obraDeArte.objectDate || "Fecha no disponible";
-  
+  imagen.setAttribute("src", obraDeArte.primaryImage ? obraDeArte.primaryImage: "imagenes/vacia.jpg"); //ingresar una imagen provisoria
+  imagen.title = "Fecha: " + obraDeArte.objectDate || "Fecha no disponible";
 
   const titulo = document.createElement("span");
-  titulo.setAttribute("class", "titulo")
-  titulo.textContent = obraDeArte.title;
-
-
-
-  // const imagen = document.createElement("img");
-  // imagen.setAttribute("class", "imagen");
-  // imagen.setAttribute("src", obraDeArte.primaryImage);
-  // imagen.title = obraDeArte.objectDate || "Fecha no disponible";
+  titulo.setAttribute("class", "titulo");
+  titulo.textContent = obraDeArte.title || "Titulo no disponible";
 
   const cultura = document.createElement("p");
-  cultura.setAttribute("class", "desc")
+  cultura.setAttribute("class", "desc");
   cultura.textContent = obraDeArte.culture || "Cultura no disponible";
-  
+
   const dinastia = document.createElement("p");
-  dinastia.setAttribute("class", "desc")
+  dinastia.setAttribute("class", "desc");
   dinastia.textContent = obraDeArte.dynasty || "Dinastia no disponible";
 
-  //traducir datos antes de mostrarlos(ejemplo de funcion de traduccion)
-  // traducirAlEspañol(obraDeArte.title,(tituloTraducido)=>{
-  //     titulo.textContent = tituloTraducido;
-  //});
-
+  //traduccion de el texto antes de ingresarlo a las cards
 
   tarjetaContainer.appendChild(titulo);
   tarjetaContainer.appendChild(imagen);
   tarjetaContainer.appendChild(cultura);
   tarjetaContainer.appendChild(dinastia);
 
-  //detectar si hay imagenes adicionales 
-  if(obraDeArte.additionalImages && obraDeArte.additionalImages.length > 0){
+  //si hay imagenes adicionales
+  if (obraDeArte.additionalImages && obraDeArte.additionalImages.length > 0) {
     const verMasImgenes = document.createElement("button");
     verMasImgenes.textContent = "Ver más imágenes";
     verMasImgenes.addEventListener("click", () => {
@@ -174,6 +160,7 @@ function renderizarTarjetas(obraDeArte) {
 
   galeria.appendChild(tarjetaContainer);
 }
+
 
 function actualizarBotonesdePaginacion() {
   //actualiza el numero de paginas del input
@@ -200,5 +187,3 @@ botonSiguentes.addEventListener("click", () => {
     recuperarIdsObrasDeArte(objetoDeBusqueda, paginaActual);
   }
 });
-
-

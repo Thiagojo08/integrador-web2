@@ -9,37 +9,19 @@
   <body>
     <h1>MUSEO</h1>
     <form id="formulario">
-      <input type="text" name="terminoAbuscar" id="terminoAbuscar" />
-      <input type="text" name="ubicacion" id="ubicacion" />
+      <input type="text" name="terminoAbuscar" id="terminoAbuscar" placeholder="Que quieres buscar?" />
+      <input type="text" name="ubicacion" id="ubicacion" placeholder="Ubicacion"/>
       <select name="departamentos" id="departamentos"></select>
       <button type="submit">Buscar</button>
     </form>
-    <!-- <div class="card">
-      <div class="image"></div>
-      <div class="content">
-        <a href="#">
-          <span class="title">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </span>
-        </a>
-
-        <p class="desc">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae
-          dolores, possimus pariatur animi temporibus nesciunt praesentium
-        </p>
-
-        <a class="action" href="#">
-          Find out more
-          <span aria-hidden="true"> → </span>
-        </a>
-      </div>
-    </div> -->
 
     <div id="galeria"></div>
-
+    <div id="paginacion">
     <button type="button" id="botonAnterior">Anterior</button>
     <input type="NumPagina" readonly />
     <button type="button" id="botonSiguiente">Siguente</button>
+  </div>
     <script type="module" src="main.js"></script>
+  
   </body>
 </html>
