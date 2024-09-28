@@ -21,7 +21,10 @@ function llenarSelect() {
   const departamentos = fetch(`${urlBase}departments`)
     .then((respuesta) => respuesta.json())
     .then((data) => {
+      console.log("Verificacion departamentos",departamentos);
+      //console.log(respuesta);
       console.log(data);
+
 
       //crea la opcion de todos los departamentos dentro del select
       const todosOption = document.createElement("option");
