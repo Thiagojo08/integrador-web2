@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const fetch = require('node-fetch');
 const app = express();
-const puerto = 3050;
+const puerto =  process.env.PORT || 3050;
 const translate = require("node-google-translate-skidz");
 
 app.use(cors());
