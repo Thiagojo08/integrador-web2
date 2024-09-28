@@ -2,7 +2,7 @@ const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
 if (id) {
-  fetch(`http://localhost:3050/api/objects/${id}`)
+  fetch(`https://integrador-web2-u8sg.onrender.com/api/objects${id}`)
     .then((res) => res.json())
     .then((data) => {
       const contenedor = document.getElementById('imagenesAdicionales');
