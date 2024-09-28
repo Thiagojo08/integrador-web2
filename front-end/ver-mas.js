@@ -8,6 +8,7 @@ if (id) {
       const contenedor = document.getElementById('imagenesAdicionales');
       data.additionalImages.forEach((imageUrl) => {
         const img = document.createElement("img");
+        img.setAttribute("class", "imagenAdicional");
         img.src = imageUrl;
         img.classList.add("imagen-adicional");
         contenedor.appendChild(img);

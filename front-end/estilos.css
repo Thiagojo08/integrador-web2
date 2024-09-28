@@ -15,6 +15,9 @@ h1 {
   text-align: center;
   margin-top: 120px;
 }
+.htmlAdicionales{
+  color: #1a0808;
+}
 
 #formulario {
   display: flex;
@@ -58,6 +61,17 @@ label{
 .imagen-adicional {
   max-width: 100%;
   margin-bottom: 10px;
+}
+.imagenAdicional{
+  width: 50%;
+  
+}
+.botonVolverpagina{
+  color: #333;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+  padding: 10px 20px;
 }
 
 .card {
