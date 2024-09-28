@@ -7,7 +7,7 @@ const departamentos = document.getElementById("departamentos");
 const galeria = document.getElementById("galeria");
 
 //VARIABLES
-const urlBase = "http://localhost:3050/api/";
+const urlBase = "https://integrador-web2-u8sg.onrender.com/api/";
 let paginaActual = 1;
 let paginasTotales = 0;
 let objetoDeBusqueda = {};
